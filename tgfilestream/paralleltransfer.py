@@ -167,12 +167,7 @@ class ParallelTransferrer:
                 while part <= last_part:
                     result = await conn.sender.send(request)
                     request.offset += part_size
-                    if part == first_part:
-                        yield result.bytes[first_part_cut:]
-                    elif part == last_part:
-                        yield result.bytes[:last_part_cut]
-                    else:
-                        yield result.bytes
+                    yield result.bytes[first_part_cut:]
                     log.debug(f"Part {part}/{last_part} (total {part_count}) downloaded")
                     part += 1
                 log.debug("Parallel download finished")
